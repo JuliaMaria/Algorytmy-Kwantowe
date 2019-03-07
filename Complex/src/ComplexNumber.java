@@ -53,7 +53,7 @@ public class ComplexNumber {
 
     public static ComplexNumber multiply(ComplexNumber num1, ComplexNumber num2) {
         double resRe = num1.re*num2.re-num1.im*num2.im;
-        double resIm = num1.re*num2.im+num1.im*num2.re;;
+        double resIm = num1.re*num2.im+num1.im*num2.re;
         return new ComplexNumber(resRe, resIm);
     }
 
@@ -73,8 +73,8 @@ public class ComplexNumber {
     }
 
     public static ComplexNumber conjugate(ComplexNumber num1) {
-        num1.im = -num1.im;
-        return num1;
+        double result = -num1.im;
+        return new ComplexNumber(num1.re, result);
     }
 
     public static ComplexNumber power(ComplexNumber num1, int power) {
@@ -82,8 +82,8 @@ public class ComplexNumber {
         double num1Angle = num1.getTrigAngle();
         num1Mag = Math.pow(num1Mag, power);
         num1Angle = power*num1Angle;
-        num1.re = num1Mag*Math.cos(num1Angle);
-        num1.im = num1Mag*Math.sin(num1Angle);
-        return num1;
+        double re = num1Mag*Math.cos(num1Angle);
+        double im = num1Mag*Math.sin(num1Angle);
+        return new ComplexNumber(re, im);
     }
 }
