@@ -1,3 +1,6 @@
+import static java.lang.Math.pow;
+import static java.lang.Math.sqrt;
+
 public class Test {
 
     public static void main(String[] args) {
@@ -20,7 +23,7 @@ public class Test {
         eight = ComplexNumber.power(eight, 2);
         System.out.println(Double.toString(eight.getRe())+" "+Double.toString(eight.getIm()));
         */
-
+        /*
         ComplexNumber[] coef1 = new ComplexNumber[4];
         coef1[0] = new ComplexNumber(2, 3);
         coef1[1] = new ComplexNumber(0, -2);
@@ -47,7 +50,22 @@ public class Test {
         }
         System.out.println(Double.toString(dotProduct.getRe())+" "+Double.toString(dotProduct.getIm()));
         System.out.println(Double.toString(norm.getRe())+" "+Double.toString(norm.getIm()));
+        */
+        /*
+        ComplexNumber[] coef1 = new ComplexNumber[2];
+        coef1[0] = new ComplexNumber(0, 1/sqrt(2));
+        coef1[1] = new ComplexNumber(0, -1/sqrt(2));
+        Vector v1 = new Vector(coef1);
+        ComplexNumber dotProduct = Vector.dotProduct(v1, v1);
+        System.out.println(Double.toString(dotProduct.getRe())+" "+Double.toString(dotProduct.getIm()));
+        */
 
+        ComplexNumber[] coef1 = new ComplexNumber[2];
+        coef1[0] = new ComplexNumber(1, 0);
+        coef1[1] = new ComplexNumber(0, 0);
+        Qubit q1 = new Qubit(coef1);
+        Qubit q2 = Qubit.applyGate(q1, Gate.SDag);
+        q2.printQubitState();
     }
 
 }
