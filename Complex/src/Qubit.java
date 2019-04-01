@@ -84,6 +84,47 @@ public class Qubit {
         return new Qubit(new ComplexNumber[] {alpha, beta});
     }
 
+    public static ComplexNumber[][] getVonNeumannMatrix(ComplexNumber A[][])
+    {
+        ComplexNumber[][] B = new ComplexNumber[A.length][A.length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                B[i][j] = A[j][i];
+                B[i][j] = ComplexNumber.conjugate(B[i][j]);
+            }
+        }
+
+        ComplexNumber[][] C = new ComplexNumber[A.length][A.length];
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                C[i][j] = new ComplexNumber(0, 0);
+            }
+        }
+
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A.length; j++) {
+                for (int k = 0; k < A.length; k++) {
+                    C[i][j] = ComplexNumber.add(C[i][j], ComplexNumber.multiply(B[i][k], A[k][j]));
+                }
+            }
+        }
+        return C;
+    }
+
+    public static ComplexNumber vonNeumann(Qubit qubit, ComplexNumber[][] initialGate) {
+        ComplexNumber[][] gate = getVonNeumannMatrix(initialGate);
+        ComplexNumber alpha = ComplexNumber.add(ComplexNumber.multiply(gate[0][0], qubit.vector.getCoefficients()[0]), ComplexNumber.multiply(gate[0][1], qubit.vector.getCoefficients()[1]));
+        ComplexNumber beta = ComplexNumber.add(ComplexNumber.multiply(gate[1][0], qubit.vector.getCoefficients()[0]), ComplexNumber.multiply(gate[1][1], qubit.vector.getCoefficients()[1]));
+        ComplexNumber result = ComplexNumber.add(ComplexNumber.multiply(ComplexNumber.conjugate(qubit.getVector().getCoefficients()[0]), alpha), ComplexNumber.multiply(ComplexNumber.conjugate(qubit.getVector().getCoefficients()[1]), beta));
+
+        ComplexNumber alpha2 = ComplexNumber.add(ComplexNumber.multiply(initialGate[0][0], qubit.vector.getCoefficients()[0]), ComplexNumber.multiply(initialGate[0][1], qubit.vector.getCoefficients()[1]));
+        ComplexNumber beta2 = ComplexNumber.add(ComplexNumber.multiply(initialGate[1][0], qubit.vector.getCoefficients()[0]), ComplexNumber.multiply(initialGate[1][1], qubit.vector.getCoefficients()[1]));
+        alpha2 = ComplexNumber.divide(alpha2, new ComplexNumber(Math.sqrt(result.getRe()), Math.sqrt(result.getIm())));
+        beta2 = ComplexNumber.divide(beta2, new ComplexNumber(Math.sqrt(result.getRe()), Math.sqrt(result.getIm())));
+        ComplexNumber[] coefficients = {alpha2, beta2};
+        qubit.setVector(coefficients);
+        return result;
+    }
 
 
 

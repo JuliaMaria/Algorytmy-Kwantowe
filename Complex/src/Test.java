@@ -59,13 +59,22 @@ public class Test {
         ComplexNumber dotProduct = Vector.dotProduct(v1, v1);
         System.out.println(Double.toString(dotProduct.getRe())+" "+Double.toString(dotProduct.getIm()));
         */
-
+        /*
         ComplexNumber[] coef1 = new ComplexNumber[2];
         coef1[0] = new ComplexNumber(1, 0);
         coef1[1] = new ComplexNumber(0, 0);
         Qubit q1 = new Qubit(coef1);
         Qubit q2 = Qubit.applyGate(q1, Gate.SDag);
         q2.printQubitState();
+        */
+        ComplexNumber[] coef2 = new ComplexNumber[2];
+        coef2[0] = new ComplexNumber(1, 0);
+        coef2[1] = new ComplexNumber(0, 0);
+        Qubit q3 = new Qubit(coef2);
+        ComplexNumber[][] gate =  {{new ComplexNumber(1, 0), new ComplexNumber(0, 0)}, {new ComplexNumber(0, 0), new ComplexNumber(0, 0)}};
+        ComplexNumber vonNeumann = Qubit.vonNeumann(q3, gate);
+        System.out.println(Double.toString(vonNeumann.getRe())+" "+Double.toString(vonNeumann.getIm()));
+        q3.printQubitState();
     }
 
 }
